@@ -42,7 +42,7 @@ details.txt
 # debug information files
 *.dwo
 
-data
+ass2Server/data
 
 .idea/
 cmake-build-debug/

@@ -62,4 +62,4 @@ add_executable(RecommendationApp
 )
 
 
-target_include_directories(RecommendationApp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(RecommendationApp PRIVATE .)
