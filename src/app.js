@@ -1,11 +1,15 @@
 const express = require('express')
-var app = express()
-app.use(express.json());
-
+const app = express()
+const usersRouter = require('./routes/users')
+const tokensRouter = require('./routes/tokens')
 const restaurantsRoutes = require('./routes/restaurantRouter');
+
+app.use(express.json())
+
+app.use('/api/users', usersRouter)
+app.use('/api/tokens', tokensRouter)
 app.use('/api/restaurants', restaurantsRoutes);
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 3000 //עושים או שלושת-אלפים למתי שאני מריצה את הפרויקט לוקאלית
+
+app.listen(PORT)
