@@ -4,24 +4,26 @@ services:
   # C++ TCP-servr
   server:
     build:
-      context: .
+      context: ./ass2Server
       dockerfile: Dockerfile
       target: runtime # get a
     container_name: recommendation_server
     ports:
-      - "8080:8080" # CHANGE IT HERE
+      - "8080:8080"
     volumes:
-      - ./data:/app/data # equals to -v "${PWD}/data:/app/data" recommendation-app
+      - ./ass2Server/data:/app/ass2Server/data # equals to -v "${PWD}/data:/app/data" recommendation-app
     command: ["./RecommendationApp", "8080"] # CHANGE IT HERE passing the port as an arg to main
 
-  # Python
+  # API_JS
   client:
     build:
-      context: .
-      dockerfile: client.Dockerfile
-    container_name: python_client
+      context: ./src
+      dockerfile: API_JS.Dockerfile
+    container_name: API_JS
     depends_on:
       - server # First of all server and then client
-    stdin_open: true # -i
-    tty: true        # -t
-    command: ["python", "client.py", "server", "8080"] # CHNAGE IT HERE
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_HOST=server
+      - BACKEND_PORT=8080
