@@ -30,8 +30,9 @@ const deleteRestaurantByID = (id) => {
     return restaurant
   }
   return null
-  }  
-  const updateRestaurantByID = (id, name, type, description ,address) => {
+  } 
+
+const updateRestaurantByID = (id, name, type, description ,address) => {
      const restaurant = getRestaurantByID(id);
     if (restaurant){
       if (name) restaurant.name = name;

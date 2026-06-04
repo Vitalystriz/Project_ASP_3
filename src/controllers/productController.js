@@ -27,7 +27,7 @@ const getProductByID = (req, res) => {
 
     const product = productModel.getProductByID(restaurantId, productId);
     if (!product) return res.status(404).json({ error: "Product was not found" });
-
+    if (!userId) return res.status(404).json({error: "Mark user in header"})
     if (userId) {
         sendToCppServer(`POST ${userId} ${productId}`)
             .catch(err => console.error("C++ Server error:", err)); 
