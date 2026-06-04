@@ -1,7 +1,7 @@
 FROM node:lts-alpine3.21
 
 WORKDIR /app/src
-RUN npm init -y
+COPY package*.json ./
 
 RUN npm install express
 COPY . .

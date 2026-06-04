@@ -67,10 +67,36 @@ const deleteProductByID = (restaurantID, productID) => {
 };
 
 
+// const findTarget = (target) => {
+//     return products.filter((product) => product.name.includes(target) || product.description.includes(target)
+//         || product.type.includes(target))
+// }
+
+const findTarget = (target) => {
+    const restaurants = restaurantModel.getAllRestaurants();
+    let allProducts = [];
+
+
+    restaurants.forEach(restaurant => {
+        if (restaurant.products) {
+            allProducts = allProducts.concat(restaurant.products);
+        }
+    });
+
+
+    return allProducts.filter((product) =>
+        (product.name && product.name.toLowerCase().includes(target)) ||
+        (product.description && product.description.toLowerCase().includes(target)) ||
+        (product.type && product.type.toLowerCase().includes(target))
+    );
+};
+
+
 module.exports = {
     getAllProducts,
     createProduct,
     getProductByID,
     deleteProductByID,
-    updateProductByID
+    updateProductByID,
+    findTarget
  }
