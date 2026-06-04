@@ -1,15 +1,22 @@
 const express = require('express')
 const app = express()
+
+app.use(express.json())
+
 const usersRouter = require('./routes/users')
 const tokensRouter = require('./routes/tokens')
 const restaurantsRoutes = require('./routes/restaurantRouter');
+const search = require('./routes/search')
 
-app.use(express.json())
+
 
 app.use('/api/users', usersRouter)
 app.use('/api/tokens', tokensRouter)
 app.use('/api/restaurants', restaurantsRoutes);
+app.use('/api/search', search)
 
-const PORT = process.env.PORT || 3000 //עושים או שלושת-אלפים למתי שאני מריצה את הפרויקט לוקאלית
+const PORT = process.env.PORT || 3000
 
-app.listen(PORT)
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
+});
