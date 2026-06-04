@@ -43,6 +43,11 @@ const deleteRestaurantByID = (id) => {
   }
    return null;
 }
+
+const findTarget = (target) => {
+    return restaurants.filter((restaurant) => restaurant.name.toLowerCase().includes(target)
+            || restaurant.description.toLowerCase().includes(target) || restaurant.type.toLowerCase().includes(target))
+}
   
 
 
@@ -51,5 +56,6 @@ module.exports = {
     createRestaurant,
     getRestaurantByID,
     deleteRestaurantByID,
-    updateRestaurantByID
+    updateRestaurantByID,
+    findTarget
  }

@@ -8,7 +8,7 @@ This is a repoitory for the third sprint in project in course Advanced System Pr
 ### Separate build and run
 1) Write in terminal `docker compose build  
 ` for buiilding
-2) Write in terminal `docker compose up
+2) Write in terminal `docker compose up -d
 ` for running app
 
    
