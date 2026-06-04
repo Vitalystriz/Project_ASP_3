@@ -1,4 +1,5 @@
 const productModel = require('../models/product')
+const { sendToCppServer } = require('../services/client');
 
 const getAllProducts = (req, res) => {
     const restaurantId = req.params.id; 
@@ -22,8 +23,15 @@ const createProduct = (req, res) => {
 const getProductByID = (req, res) => {
     const restaurantId = req.params.id;
     const productId = req.params.pId;
+    const userId = req.headers['user-id'];
+
     const product = productModel.getProductByID(restaurantId, productId);
     if (!product) return res.status(404).json({ error: "Product was not found" });
+
+    if (userId) {
+        sendToCppServer(`POST ${userId} ${productId}`)
+            .catch(err => console.error("C++ Server error:", err)); 
+    }
     res.status(200).json(product);
 
 }
