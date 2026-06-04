@@ -20,6 +20,7 @@ const createProduct = (restaurantId, name, type, description, price) => {
         type: type,
         description: description,
         price: price,
+        restaurantId: restaurantId
     };
     restaurant.products.push(newProduct);
     return newProduct;
@@ -58,6 +59,7 @@ const deleteProductByID = (restaurantID, productID) => {
         if (type) product.type = type;
         if (description) product.description = description;
         if (price) product.price = price;
+        if (restaurantId) product.restaurantId = restaurantId;
         
         return product;
     }
