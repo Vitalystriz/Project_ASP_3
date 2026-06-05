@@ -20,22 +20,28 @@ const createProduct = (req, res) => {
     res.status(201).json(newProduct);
 };
 
-const getProductByID = (req, res) => {
+const getProductByID = async (req, res) => {
     const restaurantId = req.params.id;
     const productId = req.params.pId;
     const userId = req.headers['user-id'];
 
     const product = productModel.getProductByID(restaurantId, productId);
     if (!product) return res.status(404).json({ error: "Product was not found" });
-    if (!userId) return res.status(404).json({error: "Mark user in header"})
-    if (userId) {
-        sendToCppServer(`POST ${userId} ${productId}`)
-            .catch(err => console.error("C++ Server error:", err)); 
+    if (!userId) return res.status(404).json({ error: "Mark user in header" });
+
+    try {
+
+        const response = await sendToCppServer(`POST ${userId} ${productId}`);
+
+        if (response && response.includes("404 Not Found")) {
+            await sendToCppServer(`PATCH ${userId} ${productId}`);
+        }
+    } catch (err) {
+        console.error("C++ Server error:", err);
     }
+
     res.status(200).json(product);
-
 }
-
 const updateProductByID = (req, res) => {
     const restaurantId = req.params.id;
     const productId = req.params.pId;
@@ -47,11 +53,21 @@ const updateProductByID = (req, res) => {
     res.status(200).json(updatedProduct);
 }
 
-const deleteProductByID = (req, res) => {
+const deleteProductByID = async (req, res) => {
     const restaurantId = req.params.id;
     const productId = req.params.pId;
+    const userId = req.headers['user-id'];
+
     const deletedProduct = productModel.deleteProductByID(restaurantId, productId);
- 
+
+    try {
+        if (userId) {
+            await sendToCppServer(`DELETE ${userId} ${productId}`);
+        }
+    } catch (err) {
+        console.error("C++ Server error:", err);
+    }
+
     if (!deletedProduct) return res.status(404).json({ error: "Product was not found" });
     res.status(204).send(); 
 };
